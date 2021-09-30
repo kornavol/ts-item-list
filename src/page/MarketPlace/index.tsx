@@ -7,6 +7,7 @@ const MarketPlace: FC = () => {
     cursor: 0,
     limit: 10,
   });
+  const [hasMoreData, setHasMoreData] = useState<boolean>(false);
 
   interface Meta {
     cursor: number;
@@ -16,6 +17,7 @@ const MarketPlace: FC = () => {
 
   console.log("items", items);
   console.log("meta", meta);
+  console.log("hasMoreData", hasMoreData);
 
   async function GetItems(meta: Meta) {
     const url: string =
@@ -31,37 +33,44 @@ const MarketPlace: FC = () => {
     const result = await fetch(url, options);
     const respond = await result.json();
 
-    const data: any[] = respond.data?.data;
+    console.log("respond", respond);
 
-    console.log('data', data);
-    
+    const data: any[] = respond.data?.data;
+    const newMeta: any = respond.data.meta;
+
+    setHasMoreData(newMeta.hasMoreData);
+    console.log("newMeta", newMeta);
+
+    delete newMeta.hasMoreData;
+
     setItems((prev: any[]) => prev.concat(data));
-    setMeta((prev: Meta) => Object.assign(prev, respond.data.meta));
+    setMeta((prev: Meta) => Object.assign(prev, newMeta));
   }
 
   useEffect(() => {
     GetItems(meta);
   }, []);
 
-  const list:any = items.map(item => { 
-    const images = item.images.map((img:any) => <img src={img?.object_url} alt="product" /> )
-     return  (
-     <Grid key = { item.id}
-      item xs={6} md={8}
-      >
+  const list: any = items.map((item) => {
+    const images = item.images.map((img: any) => (
+      <img src={img?.object_url} alt="product" style={{ width: "100px" }} />
+    ));
+    return (
+      <Grid key={item.id} item xs={6} md={8}>
         <h3>{`Product ${item.id}`}</h3>
         {images}
       </Grid>
-      )
-    }
-  )
+    );
+  });
 
   return (
     <>
-      <Grid container>
-        {items && list}
-      </Grid>
-      <Button variant="contained">Load more</Button>
+      <Grid container>{items && list}</Grid>
+      {hasMoreData ? (
+        <Button variant="contained" onClick={() => GetItems(meta)}>
+          Load more
+        </Button>
+      ) : null}
     </>
   );
 };
