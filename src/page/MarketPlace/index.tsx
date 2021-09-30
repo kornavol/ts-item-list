@@ -14,9 +14,8 @@ const MarketPlace: FC = () => {
     hasMoreData?: boolean;
   }
 
-  console.log('items', items);
-  console.log('meta', meta);
-  
+  console.log("items", items);
+  console.log("meta", meta);
 
   async function GetItems(meta: Meta) {
     const url: string =
@@ -33,6 +32,9 @@ const MarketPlace: FC = () => {
     const respond = await result.json();
 
     const data: any[] = respond.data?.data;
+
+    console.log('data', data);
+    
     setItems((prev: any[]) => prev.concat(data));
     setMeta((prev: Meta) => Object.assign(prev, respond.data.meta));
   }
@@ -41,12 +43,23 @@ const MarketPlace: FC = () => {
     GetItems(meta);
   }, []);
 
+  const list:any = items.map(item => { 
+    const images = item.images.map((img:any) => <img src={img?.object_url} alt="product" /> )
+     return  (
+     <Grid key = { item.id}
+      item xs={6} md={8}
+      >
+        <h3>{`Product ${item.id}`}</h3>
+        {images}
+      </Grid>
+      )
+    }
+  )
+
   return (
     <>
       <Grid container>
-        <Grid item xs={6} md={8}>
-          Test
-        </Grid>
+        {items && list}
       </Grid>
       <Button variant="contained">Load more</Button>
     </>
