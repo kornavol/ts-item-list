@@ -3,7 +3,6 @@ import React, { FC, useState, useEffect } from "react";
 import { Box, Button, Skeleton } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-
 import ItemsList from "../../components/ItemsList";
 import Search from "../../components/Search";
 
@@ -46,45 +45,41 @@ const MarketPlace: FC = () => {
     GetItems(meta);
   }, []);
 
-  console.log("hasMoreData", hasMoreData);
-
   return (
-
-      <Box
-        maxWidth={"1480px"}
-        sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}
-      >
-        {<Search />}
-        <ItemsList items={items} meta={meta} />
-        {hasMoreData ? (
-          items.length > 0 ? (
-            isLoading ? (
-              <LoadingButton
-                style={{ margin: "15px" }} //ch
-                loading
-                loadingIndicator="Loading..."
-                variant="outlined"
-              >
-                Fetch data
-              </LoadingButton>
-            ) : (
-              <Button
-                style={{ margin: "15px" }} //ch
-                variant="contained"
-                onClick={() => {
-                  setIsLoading(true);
-                  GetItems(meta);
-                }}
-              >
-                Load more
-              </Button>
-            )
+    <Box
+      maxWidth={"1480px"}
+      sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}
+    >
+      {<Search />}
+      <ItemsList items={items} meta={meta} />
+      {hasMoreData ? (
+        items.length > 0 ? (
+          isLoading ? (
+            <LoadingButton
+              style={{ margin: "15px" }} //ch
+              loading
+              loadingIndicator="Loading..."
+              variant="outlined"
+            >
+              Fetch data
+            </LoadingButton>
           ) : (
-            <Skeleton variant="rectangular" width={100} height={33} />
+            <Button
+              style={{ margin: "15px" }} //ch
+              variant="contained"
+              onClick={() => {
+                setIsLoading(true);
+                GetItems(meta);
+              }}
+            >
+              Load more
+            </Button>
           )
-        ) : null}
-      </Box>
-
+        ) : (
+          <Skeleton variant="rectangular" width={100} height={33} />
+        )
+      ) : null}
+    </Box>
   );
 };
 
