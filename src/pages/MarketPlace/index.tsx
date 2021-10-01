@@ -1,28 +1,21 @@
 import React, { FC, useState, useEffect } from "react";
 
-import { Box } from "@mui/material";
-import Button from "@mui/material/Button";
+import { Box, Button, Skeleton } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 import ItemsList from "../../components/ItemsList";
 import Search from "../../components/Search";
 
+import { Meta } from "../../interfaces";
+
 const MarketPlace: FC = () => {
   const [items, setItems] = useState<any[]>([]);
   const [meta, setMeta] = useState<Meta>({
     cursor: 0,
-    limit: 2,
+    limit: 4,
   });
-  const [hasMoreData, setHasMoreData] = useState<boolean>(false);
+  const [hasMoreData, setHasMoreData] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  interface Meta {
-    cursor: number;
-    limit: number;
-    hasMoreData?: boolean;
-  }
-
-  console.log("isLoading", isLoading);
 
   async function GetItems(meta: Meta) {
     const url: string =
@@ -39,7 +32,9 @@ const MarketPlace: FC = () => {
     const respond = await result.json();
     setIsLoading(() => false);
 
-    // console.log("respond", respond);
+
+console.log("respond", respond);
+    console.log("respond", respond.data.meta);
 
     const data: any[] = respond.data?.data;
     const newMeta: any = respond.data.meta;
@@ -54,34 +49,41 @@ const MarketPlace: FC = () => {
     GetItems(meta);
   }, []);
 
+  console.log('hasMoreData', hasMoreData);
+  
+
   return (
     <Box
       maxWidth={"1480px"}
       sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}
     >
-      <Search />
-      <ItemsList items={items} />
+      {<Search />}
+      <ItemsList items={items} meta={meta} />
       {hasMoreData ? (
-        items && isLoading ? (
-          <LoadingButton
-            style={{ margin: "15px" }} //ch
-            loading
-            loadingIndicator="Loading..."
-            variant="outlined"
-          >
-            Fetch data
-          </LoadingButton>
+        items.length > 0 ? (
+          isLoading ? (
+            <LoadingButton
+              style={{ margin: "15px" }} //ch
+              loading
+              loadingIndicator="Loading..."
+              variant="outlined"
+            >
+              Fetch data
+            </LoadingButton>
+          ) : (
+            <Button
+              style={{ margin: "15px" }} //ch
+              variant="contained"
+              onClick={() => {
+                setIsLoading(true);
+                GetItems(meta);
+              }}
+            >
+              Load more
+            </Button>
+          )
         ) : (
-          <Button
-            style={{ margin: "15px" }} //ch
-            variant="contained"
-            onClick={() => {
-              setIsLoading(true);
-              GetItems(meta);
-            }}
-          >
-            Load more
-          </Button>
+          <Skeleton variant="rectangular" width={100} height={33} />
         )
       ) : null}
     </Box>
