@@ -9,13 +9,6 @@ import { Meta } from "../../interfaces";
 
 const Item: FC<any> = ({ item }) => {
   const classes = ItemStyles();
-
-  // console.log('item', item);
-
-  /* ! */
-  console.log(item);
-  // console.log(item.images);
-
   const images = item.images?.map((img: any, i: number) => (
     <img key={i} src={img?.object_url} alt="product" className={classes.img} />
   ));

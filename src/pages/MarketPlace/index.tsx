@@ -30,12 +30,8 @@ const MarketPlace: FC = () => {
 
     const result = await fetch(url, options);
     const respond = await result.json();
+    
     setIsLoading(() => false);
-
-
-console.log("respond", respond);
-    console.log("respond", respond.data.meta);
-
     const data: any[] = respond.data?.data;
     const newMeta: any = respond.data.meta;
 
@@ -49,8 +45,7 @@ console.log("respond", respond);
     GetItems(meta);
   }, []);
 
-  console.log('hasMoreData', hasMoreData);
-  
+  console.log("hasMoreData", hasMoreData);
 
   return (
     <Box

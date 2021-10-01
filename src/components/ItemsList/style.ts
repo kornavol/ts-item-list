@@ -10,7 +10,6 @@ export const ItemsListStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     width: "100%",
     margin: "1vw",
-    border: "1px solid black",
     overflow: "hidden",
   },
   skeletonImg: {
