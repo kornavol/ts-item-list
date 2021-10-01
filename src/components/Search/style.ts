@@ -10,7 +10,7 @@ export const Search = styled("div")(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   margin:"10px 5% 10px auto",
-  width: "20%",
+  // width: "20%",
   [theme.breakpoints.down("md")]: {
     marginLeft: "auto",
     marginRight: "auto",

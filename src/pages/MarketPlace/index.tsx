@@ -3,7 +3,7 @@ import React, { FC, useState, useEffect } from "react";
 import { Box, Button, Skeleton } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-import ItemsList from "../../components/ItemsList";
+import ItemsList from "./ItemsList";
 import Search from "../../components/Search";
 
 import { Meta } from "../../interfaces";
@@ -16,6 +16,7 @@ const MarketPlace: FC = () => {
   });
   const [hasMoreData, setHasMoreData] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   async function GetItems(meta: Meta) {
     const url: string =
@@ -50,8 +51,8 @@ const MarketPlace: FC = () => {
       maxWidth={"1480px"}
       sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}
     >
-      {<Search />}
-      <ItemsList items={items} meta={meta} />
+      {<Search value={searchTerm} setValue={setSearchTerm} />}
+      <ItemsList items={items} meta={meta} searchTerm={searchTerm} />
       {hasMoreData ? (
         items.length > 0 ? (
           isLoading ? (
@@ -70,6 +71,7 @@ const MarketPlace: FC = () => {
               onClick={() => {
                 setIsLoading(true);
                 GetItems(meta);
+                setSearchTerm("")
               }}
             >
               Load more

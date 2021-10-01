@@ -1,12 +1,13 @@
 import React, { FC } from "react";
 
-import { Grid } from "@mui/material";
-import Skeleton from "@mui/material/Skeleton";
+import { Grid , Skeleton} from "@mui/material";
 import { motion } from "framer-motion";
 import { ItemsListStyles, ItemStyles } from "./style";
-import noPicture from "../../assets/pictures/no-img-layout.png";
+import noPicture from "../../../assets/pictures/no-img-layout.png";
 
-import { Meta } from "../../interfaces";
+import EmptySearchMsg from '../../../components/messages/EmptySearchMsg'
+
+import { Meta } from "../../../interfaces";
 
 const Item: FC<any> = ({ item }) => {
   const classes = ItemStyles();
@@ -34,9 +35,10 @@ const Item: FC<any> = ({ item }) => {
 interface IProps {
   items: any[];
   meta: Meta;
+  searchTerm: string;
 }
 
-const ItemsList: FC<IProps> = ({ items, meta }) => {
+const ItemsList: FC<IProps> = ({ items, meta, searchTerm }) => {
   const classes = ItemsListStyles();
 
   const skeletons: JSX.Element[] = [...Array(meta.limit)].map((el, i) => (
@@ -51,26 +53,39 @@ const ItemsList: FC<IProps> = ({ items, meta }) => {
   ));
 
   function compare(a: any, b: any): number {
-    const first = a.product_name;
-    const second = b.product_name;
+    const first = a.product_name.split(" ");
+    const second = b.product_name.split(" ");
 
-    let comparison = 0;
-
-    if (first > second) {
-      comparison = 1;
-    } else if (first < second) {
-      comparison = -1;
-    }
-    return comparison;
+    return first[1] - second[1]
   }
 
   const list: JSX.Element[] = items
+    .filter((item: any) => {
+      if (searchTerm === "") {
+        return item;
+      } else if (
+        item.product_name.toLowerCase().includes(searchTerm.toLowerCase())
+      ) {
+        return item;
+      }
+    })
+    // .sort(compare)
+    .sort((a, b) => a.product_name.localeCompare(b.product_name))
     .sort(compare)
+    // .sort((a, b) => a.product_name.split(" ", 1).localeCompare(b.product_name.split(" ", 1)))
     .map((item: any) => <Item key={item.id} item={item} />);
 
   return (
-    <Grid /* className={classes.root}  */ container spacing={1}>
-      {items.length > 0 ? list : skeletons}
+    <Grid  container spacing={1}>
+      {items.length > 0 ? (
+        list.length > 0 ? (
+          list
+        ) : (
+          <EmptySearchMsg text={searchTerm} />
+        )
+      ) : (
+        skeletons
+      )}
     </Grid>
   );
 };
