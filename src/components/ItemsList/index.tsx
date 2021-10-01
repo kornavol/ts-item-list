@@ -2,8 +2,10 @@ import React, { FC } from "react";
 
 import { Grid } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
+import { motion } from "framer-motion";
 import { ItemsListStyles, ItemStyles } from "./style";
 import noPicture from "../../assets/pictures/no-img-layout.png";
+
 
 import { Meta } from "../../interfaces";
 
@@ -14,13 +16,19 @@ const Item: FC<any> = ({ item }) => {
   ));
 
   return (
-    <Grid item key={item.id} xs={12} sm={6} md={3}>
-      <div className={classes.root}>
+    <Grid 
+    item key={item.id} xs={12} sm={6} md={3}>
+      <motion.div  
+      className={classes.root}
+      initial={{opacity:0}}
+      animate={{opacity:1}}
+      transition={{duration:1}}
+      >
         {images || (
           <img src={noPicture} alt="no-image" className={classes.img} />
         )}
         <p>{item.product_name}</p>
-      </div>
+      </motion.div>
     </Grid>
   );
 };

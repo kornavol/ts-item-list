@@ -1,18 +1,23 @@
-import React, {FC} from 'react';
+import React, { FC } from "react";
+import { motion } from "framer-motion";
 
-import './App.css';
-import logo from './logo.svg'
-
-import MarketPlace from './pages/MarketPlace'
-
+import "./App.css";
+import logo from "./logo.svg";
+import MarketPlace from "./pages/MarketPlace";
 
 const App: FC = () => {
   return (
-    <div className='App-root'>
-     <img src={logo} className="logo" alt="logo" />
-     <MarketPlace/>
+    <div className="App-root">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <img src={logo} className="logo" alt="logo" />
+        <MarketPlace />
+      </motion.div>
     </div>
   );
-}
+};
 
 export default App;
