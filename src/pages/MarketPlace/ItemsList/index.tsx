@@ -1,15 +1,16 @@
 import React, { FC } from "react";
 
-import { Grid , Skeleton} from "@mui/material";
+import { Grid, Skeleton } from "@mui/material";
 import { motion } from "framer-motion";
 import { ItemsListStyles, ItemStyles } from "./style";
 import noPicture from "../../../assets/pictures/no-img-layout.png";
 
-import EmptySearchMsg from '../../../components/messages/EmptySearchMsg'
+import EmptySearchMsg from "../../../components/messages/EmptySearchMsg";
 
-import { Meta } from "../../../interfaces";
+import { CurrMeta } from "../../../interfaces";
 
 const Item: FC<any> = ({ item }) => {
+ 
   const classes = ItemStyles();
   const images = item.images?.map((img: any, i: number) => (
     <img key={i} src={img?.object_url} alt="product" className={classes.img} />
@@ -34,7 +35,7 @@ const Item: FC<any> = ({ item }) => {
 
 interface IProps {
   items: any[];
-  meta: Meta;
+  meta: CurrMeta;
   searchTerm: string;
 }
 
@@ -56,7 +57,11 @@ const ItemsList: FC<IProps> = ({ items, meta, searchTerm }) => {
     const first = a.product_name.split(" ");
     const second = b.product_name.split(" ");
 
-    return first[1] - second[1]
+    if (first[0] === second[0]) {
+      return first[1] - second[1];
+    } else {
+      return 0;
+    }
   }
 
   const list: JSX.Element[] = items
@@ -76,7 +81,7 @@ const ItemsList: FC<IProps> = ({ items, meta, searchTerm }) => {
     .map((item: any) => <Item key={item.id} item={item} />);
 
   return (
-    <Grid  container spacing={1}>
+    <Grid container spacing={1}>
       {items.length > 0 ? (
         list.length > 0 ? (
           list

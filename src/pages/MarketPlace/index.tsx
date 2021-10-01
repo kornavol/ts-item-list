@@ -6,11 +6,11 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import ItemsList from "./ItemsList";
 import Search from "../../components/Search";
 
-import { Meta } from "../../interfaces";
+import { CurrMeta } from "../../interfaces";
 
 const MarketPlace: FC = () => {
   const [items, setItems] = useState<any[]>([]);
-  const [meta, setMeta] = useState<Meta>({
+  const [meta, setMeta] = useState<CurrMeta>({
     cursor: 0,
     limit: 4,
   });
@@ -18,7 +18,7 @@ const MarketPlace: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  async function GetItems(meta: Meta) {
+  async function GetItems(meta: CurrMeta) {
     const url: string =
       "https://asterix-dev.concular.com/material-service/marketplace/mp";
     const options = {
@@ -39,7 +39,7 @@ const MarketPlace: FC = () => {
     setHasMoreData(newMeta.hasMoreData);
     delete newMeta.hasMoreData;
     setItems((prev: any[]) => prev.concat(data));
-    setMeta((prev: Meta) => Object.assign(prev, newMeta));
+    setMeta((prev: CurrMeta) => Object.assign(prev, newMeta));
   }
 
   useEffect(() => {
