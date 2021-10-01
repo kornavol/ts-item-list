@@ -1,0 +1,15 @@
+.App-root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+.logo {
+    width: 10vw;
+    min-width: 100px;
+    margin-top: 1vw;
+    margin-bottom: 2vh;
+}

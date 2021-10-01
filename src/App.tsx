@@ -1,11 +1,15 @@
 import React, {FC} from 'react';
+
 import './App.css';
-import MarketPlace from './page/MarketPlace'
+import logo from './logo.svg'
+
+import MarketPlace from './pages/MarketPlace'
+
 
 const App: FC = () => {
   return (
-    <div>
-     <h1>Concular</h1>
+    <div className='App-root'>
+     <img src={logo} className="logo" alt="logo" />
      <MarketPlace/>
     </div>
   );

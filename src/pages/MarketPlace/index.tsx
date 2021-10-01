@@ -1,13 +1,20 @@
 import React, { FC, useState, useEffect } from "react";
-import { Grid, Button } from "@material-ui/core";
+
+import { Box } from "@mui/material";
+import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
+
+import ItemsList from "../../components/ItemsList";
+import Search from "../../components/Search";
 
 const MarketPlace: FC = () => {
   const [items, setItems] = useState<any[]>([]);
   const [meta, setMeta] = useState<Meta>({
     cursor: 0,
-    limit: 10,
+    limit: 2,
   });
   const [hasMoreData, setHasMoreData] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   interface Meta {
     cursor: number;
@@ -15,9 +22,7 @@ const MarketPlace: FC = () => {
     hasMoreData?: boolean;
   }
 
-  console.log("items", items);
-  console.log("meta", meta);
-  console.log("hasMoreData", hasMoreData);
+  console.log("isLoading", isLoading);
 
   async function GetItems(meta: Meta) {
     const url: string =
@@ -32,17 +37,15 @@ const MarketPlace: FC = () => {
 
     const result = await fetch(url, options);
     const respond = await result.json();
+    setIsLoading(() => false);
 
-    console.log("respond", respond);
+    // console.log("respond", respond);
 
     const data: any[] = respond.data?.data;
     const newMeta: any = respond.data.meta;
 
     setHasMoreData(newMeta.hasMoreData);
-    console.log("newMeta", newMeta);
-
     delete newMeta.hasMoreData;
-
     setItems((prev: any[]) => prev.concat(data));
     setMeta((prev: Meta) => Object.assign(prev, newMeta));
   }
@@ -51,27 +54,37 @@ const MarketPlace: FC = () => {
     GetItems(meta);
   }, []);
 
-  const list: any = items.map((item) => {
-    const images = item.images.map((img: any) => (
-      <img src={img?.object_url} alt="product" style={{ width: "100px" }} />
-    ));
-    return (
-      <Grid key={item.id} item xs={6} md={8}>
-        <h3>{`Product ${item.id}`}</h3>
-        {images}
-      </Grid>
-    );
-  });
-
   return (
-    <>
-      <Grid container>{items && list}</Grid>
+    <Box
+      maxWidth={"1480px"}
+      sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}
+    >
+      <Search />
+      <ItemsList items={items} />
       {hasMoreData ? (
-        <Button variant="contained" onClick={() => GetItems(meta)}>
-          Load more
-        </Button>
+        items && isLoading ? (
+          <LoadingButton
+            style={{ margin: "15px" }} //ch
+            loading
+            loadingIndicator="Loading..."
+            variant="outlined"
+          >
+            Fetch data
+          </LoadingButton>
+        ) : (
+          <Button
+            style={{ margin: "15px" }} //ch
+            variant="contained"
+            onClick={() => {
+              setIsLoading(true);
+              GetItems(meta);
+            }}
+          >
+            Load more
+          </Button>
+        )
       ) : null}
-    </>
+    </Box>
   );
 };
 
