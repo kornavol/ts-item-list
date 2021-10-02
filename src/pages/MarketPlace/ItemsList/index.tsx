@@ -10,7 +10,6 @@ import EmptySearchMsg from "../../../components/messages/EmptySearchMsg";
 import { CurrMeta } from "../../../interfaces";
 
 const Item: FC<any> = ({ item }) => {
- 
   const classes = ItemStyles();
   const images = item.images?.map((img: any, i: number) => (
     <img key={i} src={img?.object_url} alt="product" className={classes.img} />
@@ -53,17 +52,6 @@ const ItemsList: FC<IProps> = ({ items, meta, searchTerm }) => {
     </Grid>
   ));
 
-  function compare(a: any, b: any): number {
-    const first = a.product_name.split(" ");
-    const second = b.product_name.split(" ");
-
-    if (first[0] === second[0]) {
-      return first[1] - second[1];
-    } else {
-      return 0;
-    }
-  }
-
   const list: JSX.Element[] = items
     .filter((item: any) => {
       if (searchTerm === "") {
@@ -74,10 +62,6 @@ const ItemsList: FC<IProps> = ({ items, meta, searchTerm }) => {
         return item;
       }
     })
-    // .sort(compare)
-    .sort((a, b) => a.product_name.localeCompare(b.product_name))
-    .sort(compare)
-    // .sort((a, b) => a.product_name.split(" ", 1).localeCompare(b.product_name.split(" ", 1)))
     .map((item: any) => <Item key={item.id} item={item} />);
 
   return (
