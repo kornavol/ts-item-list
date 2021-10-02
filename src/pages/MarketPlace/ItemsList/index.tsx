@@ -47,7 +47,15 @@ const ItemsList: FC<IProps> = ({ items, meta, searchTerm }) => {
         <div className={classes.skeletonImg}>
           <Skeleton variant="rectangular" width={300} height={300} />
         </div>
-        <Skeleton variant="text" width={300} height={50} />
+        <div>
+          <Skeleton
+            variant="text"
+            width={300}
+            height={40}
+            sx={{ marginBottom: "-5px" }}
+          />
+          <Skeleton variant="text" width={150} height={40} />
+        </div>
       </div>
     </Grid>
   ));

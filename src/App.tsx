@@ -12,7 +12,7 @@ const App: FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        style={{width:'100%'}}
+        style={{ width: "100%" }}
       >
         <img src={logo} className="logo" alt="logo" />
         <MarketPlace />

@@ -11,15 +11,15 @@ export const EmptySearchMsg = makeStyles((theme: Theme) => ({
     overflow: "hidden",
   },
   img: {
-    maxWidth:400,
+    maxWidth: 400,
     width: "40%",
-    marginTop:'2rem'
+    marginTop: "2rem",
   },
   message: {
     fontFamily: "Lucida Console, Times, Sans-serif ",
-    margin: '1rem',
+    margin: "1rem",
   },
-  text:{
-    color:'red'
-  }
+  text: {
+    color: "red",
+  },
 }));
