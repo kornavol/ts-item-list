@@ -21,10 +21,9 @@ const Search: FC<Iprops> = ({value, setValue }) => {
       <StyledInputBase
         placeholder="Search by product name"
         inputProps={{ "aria-label": "search" }}
+        value={value}
         onChange={(e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setValue(e.target.value)}
-      >
-        {value}
-      </StyledInputBase>
+      />
     </SearchComp>
   );
 };

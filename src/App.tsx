@@ -5,6 +5,7 @@ import "./App.css";
 import logo from "./logo.svg";
 import MarketPlace from "./pages/MarketPlace";
 
+
 const App: FC = () => {
   return (
     <div className="App-root">
@@ -14,7 +15,7 @@ const App: FC = () => {
         transition={{ duration: 1 }}
         style={{ width: "100%" }}
       >
-        <img src={logo} className="logo" alt="logo" />
+        {/* <img src={logo} className="logo" alt="logo" /> */}
         <MarketPlace />
       </motion.div>
     </div>

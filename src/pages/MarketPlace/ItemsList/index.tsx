@@ -41,6 +41,9 @@ interface IProps {
 const ItemsList: FC<IProps> = ({ items, meta, searchTerm }) => {
   const classes = ItemsListStyles();
 
+  console.log(items);
+  
+
   const skeletons: JSX.Element[] = [...Array(meta.limit)].map((el, i) => (
     <Grid item key={i} xs={12} sm={6} md={3}>
       <div className={classes.skeleton}>

@@ -29,15 +29,6 @@ const MarketPlace: FC = () => {
     }
   }
 
-  const list: JSX.Element[] = items.filter((item: any) => {
-    if (searchTerm === "") {
-      return item;
-    } else if (
-      item.product_name.toLowerCase().includes(searchTerm.toLowerCase())
-    ) {
-      return item;
-    }
-  });
 
   async function GetItems(meta: CurrMeta) {
     const url: string =
